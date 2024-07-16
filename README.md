@@ -2,7 +2,7 @@
 
 **QuickService Web Page v1.0**
 
-![Example Image](https://github.com/juseungpark97/introduce/blob/main/main.png)
+![Example Image](https://github.com/juseungpark97/introduce/blob/main/image/main.png)
 [딜리메이트](https://github.com/juseungpark97/Semiproject)
 
 
