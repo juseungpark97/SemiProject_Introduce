@@ -2,11 +2,13 @@
 
 **QuickService Web Page v1.0**
 
+![Example Image](https://github.com/yourusername/yourrepository/blob/main/images/example.png)
+
 **개발기간**: 2024.06 ~ 2024.07
 
 ## 웹개발팀 인원
 
-- 6명
+- 박주승, 이주빈, 오민혁, 정인석, 이은호, 강경호
 
 ## 프로젝트 소개
 
