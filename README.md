@@ -2,7 +2,7 @@
 
 **QuickService Web Page v1.0**
 
-![Main Image]([https://github.com/yourusername/yourrepository/blob/main/images/example.png](https://github.com/juseungpark97/introduce/blob/main/main.png))
+![Example Image](https://github.com/juseungpark97/introduce/blob/main/main.png)
 
 **개발기간**: 2024.06 ~ 2024.07
 
