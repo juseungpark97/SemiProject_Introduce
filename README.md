@@ -49,8 +49,8 @@
 
 ### 담당 기능
 
-- 주문 생성
-- 카카오 맵 API
+- 주문 생성, 카카오 맵 API
+  ![Example Image](https://github.com/juseungpark97/introduce/blob/main/image/주문생성.png)
 - 채팅방(고객, 라이더 1:1 채팅방)
 
 
