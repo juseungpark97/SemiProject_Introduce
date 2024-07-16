@@ -34,7 +34,7 @@
   - CSS3
   - JavaScript
 - **백엔드**:
-  - Spring Framework
+  - Spring Framework(Version: 3.9.18.RELEASE)
 - **데이터베이스**:
   - Oracle Database 21c Express Edition
 - **개발 환경**:
