@@ -228,8 +228,81 @@ function getAddressFromCoords(coords) {
 
 
 - 주문상세보기
-- ![Example Image]
+- ![Example Image](https://github.com/juseungpark97/introduce/blob/main/image/주문상세보기.png)
+// 주문상세보기는 새로운 마커를 찍을 필요가 없고, 기존의 마커와 길찾기를 똑같이 보여줍니다.
+// 마커를 찍기위해 다시 지오코더를 이용해서 이번엔 주소를 위도와 경도로 바꿔줍니다.
+// 바꾼 위도와 경도를 기준으로 마커를 다시 찍고 길찾기를 합니다.
+// 길찾기는 주문생성 페이지에 있는 카카오 모빌리티를 재활용했습니다.
+// 마커와 마커사이가 멀어질 것을 대비해 두 마커가 전부 보이는 중앙을 기점으로 지도를 확대, 축소합니다.
+```javascript
+function initializeMap() {
+    var mapContainer = document.getElementById('map'); // 'map' 아이디를 가진 HTML 요소를 선택
+    var mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 초기 지도 중심 좌표 설정
+        level: 4 // 지도 확대 레벨 설정
+    };
 
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도 객체 생성
+    var geocoder = new kakao.maps.services.Geocoder(); // 주소-좌표 변환 객체 생성
+
+    var startPoint = "${order.startPoint}"; // 시작 지점 주소
+    var endPoint = "${order.endPoint}"; // 끝 지점 주소
+
+    var markers = []; // 마커를 저장할 배열
+    var polylines = []; // 폴리라인을 저장할 배열
+
+    // 주소를 좌표로 변환하는 함수
+    function geocodeAddress(address) {
+        return new Promise(function(resolve, reject) {
+            geocoder.addressSearch(address, function(result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    resolve(new kakao.maps.LatLng(result[0].y, result[0].x)); // 변환된 좌표를 반환
+                } else {
+                    reject(status); // 실패 시 상태 반환
+                }
+            });
+        });
+    }
+
+    // 시작 지점과 끝 지점의 주소를 좌표로 변환
+    Promise.all([geocodeAddress(startPoint), geocodeAddress(endPoint)])
+        .then(function(coords) {
+            // 시작 지점 마커 생성 및 지도에 추가
+            var startMarker = new kakao.maps.Marker({
+                map: map,
+                position: coords[0]
+            });
+            markers.push(startMarker); // 마커 배열에 추가
+
+            // 끝 지점 마커 생성 및 지도에 추가
+            var endMarker = new kakao.maps.Marker({
+                map: map,
+                position: coords[1]
+            });
+            markers.push(endMarker); // 마커 배열에 추가
+
+            adjustMapBounds(); // 지도 범위 조정
+
+            if (markers.length === 2) {
+                findRouteAndDrawLine(); // 두 마커가 모두 존재하면 경로를 찾고 선을 그림
+            }
+        })
+        .catch(function(error) {
+            console.error('Geocode error:', error); // 주소 변환 실패 시 콘솔에 오류 출력
+        });
+
+    // 지도의 범위를 마커들이 모두 보이도록 조정하는 함수
+    function adjustMapBounds() {
+        if (markers.length === 2) {
+            var bounds = new kakao.maps.LatLngBounds(); // 지도의 범위 객체 생성
+            markers.forEach(marker => bounds.extend(marker.getPosition())); // 각 마커의 위치를 범위에 포함
+            map.setBounds(bounds); // 지도의 범위를 설정
+        }
+    }
+}
+
+
+```
 
   
 - 채팅방(고객, 라이더 1:1 채팅방)
