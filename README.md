@@ -51,7 +51,43 @@
 
 - 회원가입
   ![Example Image](https://github.com/juseungpark97/introduce/blob/main/image/signup.png)
+```javascript
+function formatPhoneNumber(input) {
+    // 입력 값에서 숫자 이외의 모든 문자를 제거
+    let cleaned = input.value.replace(/\D/g, ''); 
+    let formatted = ''; // 형식화된 전화번호를 저장할 변수
 
+    // 입력된 숫자의 길이가 3보다 크고 7 이하인 경우
+    if (cleaned.length > 3 && cleaned.length <= 7) {
+        // 첫 세 자리 숫자 뒤에 하이픈을 추가
+        formatted = cleaned.replace(/(\d{3})(\d+)/, '$1-$2'); 
+    } 
+    // 입력된 숫자의 길이가 7보다 큰 경우
+    else if (cleaned.length > 7) {
+        // 첫 세 자리 숫자와 그 다음 네 자리 숫자 뒤에 하이픈을 추가
+        formatted = cleaned.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3'); 
+    } 
+    // 입력된 숫자의 길이가 3 이하인 경우
+    else {
+        // 그대로 할당
+        formatted = cleaned; 
+    }
+
+    // 입력 값에 형식화된 전화번호를 할당
+    input.value = formatted; 
+}
+
+function cleanPhoneNumber() {
+    // 'phone' 아이디를 가진 입력 요소를 선택
+    let phoneInput = document.getElementById('phone'); 
+    // 입력 값에서 모든 하이픈을 제거
+    phoneInput.value = phoneInput.value.replace(/-/g, ''); 
+}
+
+// cleanPhoneNumber를 따로 사용한 이유는 DB에 Phone컬럼 크기가 11이기 때문이다.
+// 하이픈이 들어가게 되면 11을 초과하므로 DB에 올바르게 들어갈 수 없기 때문에 그것을 없애주면서 사용자가 보기에 편한 로직을 짰다.
+<button class="tooltip" id="" onclick="cleanPhoneNumber()">회원가입</button>
+```
   
 - 주문 생성, 카카오 맵 API
   ![Example Image](https://github.com/juseungpark97/introduce/blob/main/image/주문생성.png)
