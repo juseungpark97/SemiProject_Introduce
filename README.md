@@ -229,12 +229,13 @@ function getAddressFromCoords(coords) {
 
 - 주문상세보기
 - ![Example Image](https://github.com/juseungpark97/introduce/blob/main/image/주문상세보기.png)
+
+```javascript
 // 주문상세보기는 새로운 마커를 찍을 필요가 없고, 기존의 마커와 길찾기를 똑같이 보여줍니다.
 // 마커를 찍기위해 다시 지오코더를 이용해서 이번엔 주소를 위도와 경도로 바꿔줍니다.
 // 바꾼 위도와 경도를 기준으로 마커를 다시 찍고 길찾기를 합니다.
 // 길찾기는 주문생성 페이지에 있는 카카오 모빌리티를 재활용했습니다.
 // 마커와 마커사이가 멀어질 것을 대비해 두 마커가 전부 보이는 중앙을 기점으로 지도를 확대, 축소합니다.
-```javascript
 function initializeMap() {
     var mapContainer = document.getElementById('map'); // 'map' 아이디를 가진 HTML 요소를 선택
     var mapOption = {
