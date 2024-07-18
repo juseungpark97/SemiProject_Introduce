@@ -225,13 +225,19 @@ function getAddressFromCoords(coords) {
 }
 
 ```
+
+
+- 주문상세보기
+- ![Example Image]
+
+
   
 - 채팅방(고객, 라이더 1:1 채팅방)
   ![Example Image](https://github.com/juseungpark97/introduce/blob/main/image/채팅방.png)
 ```javascript
 // stomp라이브러리와, SockJS를 이용한 채팅방 구현 코드
-// 안정적인 연결을 위해 네트워크와, 브라우저 환경에 유연한 SockJs를 사용했고, 1:1채팅방을 만들기 위해 구독을 이용하는 stomp라이브러리를 이용했다.
-// 추가로 채팅방이기 때문에 연결했을 때만 서로 채팅을 주고받는것이 아니라 다른곳에 갔다가 다시 채팅방에 왔을 경우에도 여전히 채팅내역은 남아있게끔 DB를 이용해서 만들었다.
+// 안정적인 연결을 위해 네트워크와, 브라우저 환경에 유연한 SockJs를 사용했고, 1:1채팅방을 만들기 위해 구독을 이용하는 stomp라이브러리를 이용했습니다.
+// 추가로 채팅방이기 때문에 연결했을 때만 서로 채팅을 주고받는것이 아니라 다른곳에 갔다가 다시 채팅방에 왔을 경우에도 여전히 채팅내역은 남아있게끔 DB를 이용해서 만들었습니다.
     var stompClient = null; // STOMP 클라이언트를 저장할 변수
 
     function connect() {
@@ -291,6 +297,34 @@ function getAddressFromCoords(coords) {
     }
 
     connect(); // 페이지 로드 시 서버에 연결
+```
+
+```java
+// 1:1채팅방이기 때문에 DB에서 중복되지 않는 primaryKey로 메세징 구독 처리를 했습니다. 이러면 채팅방끼리 서로 오송신이 일어나지 않습니다.
+// 메세지를 전달하는순간 DB에 메세지가 저장되고, 다시 채팅방에 입장할때는 그 저장된 DB를 순서대로 불러와서 실제 채팅방 기능을 구현했습니다.
+// 주문당 채팅방이 고객-라이더 이렇게 1개이기때문에 주문번호(고유값)를 이용해서 각 DB에 저장하기 때문에 소켓통신을 통한 채팅도 1:1이고, 다시 같은 채팅방 입장했을때 채팅내역도 1:1입니다.
+@MessageMapping("/sendMessage")
+public void sendMessage(Message message) {
+    // 메시지의 senderId가 0이면 예외를 발생시킴 (로그인되지 않은 사용자)
+    if (message.getSenderId() == 0) {
+        throw new IllegalStateException("User is not logged in.");
+    }
+
+    // 메시지를 데이터베이스에 저장
+    messageService.saveMessage(message);
+
+    // 특정 채팅방의 주제로 메시지 전송
+    messagingTemplate.convertAndSend("/topic/messages/" + message.getChatRoomId(), message);
+}
+
+@GetMapping("/messages")
+@ResponseBody
+public List<Message> getMessages(@RequestParam int chatRoomId) {
+    // 주어진 채팅방 ID에 해당하는 메시지 목록을 반환
+    return messageService.getMessagesByChatRoomId(chatRoomId);
+}
+
+
 ```
 
 
