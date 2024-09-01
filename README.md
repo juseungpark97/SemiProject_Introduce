@@ -1,6 +1,6 @@
-# QuickService
+# 딜리메이트
 
-**QuickService Web Page v1.0**
+**딜리메이트 Web Page v1.0**
 
 ![Example Image](https://github.com/juseungpark97/introduce/blob/main/image/main.png)
 [딜리메이트](https://github.com/juseungpark97/Semiproject)
@@ -14,7 +14,7 @@
 
 ## 프로젝트 소개
 
-**QuickService**는 빠르고 효율적인 서비스 제공을 목표로 하는 웹 애플리케이션입니다. 
+**딜리메이트**는 빠르고 효율적인 서비스 제공을 목표로 하는 웹 애플리케이션입니다. 
 
 ### 주요 기능
 
